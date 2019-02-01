@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="आप एक आपदाग्रस्त क्षेत्र में पाए गए हैं। यदि आपको सहायता की आवश्यकता है, तो कृपया अपने सटीक पते के साथ प्रतिक्रिया करें,\nऔर दर्ज करें, 0 दर्ज करें।"
+        android:id="@+id/textView"
+        android:padding="10dp"/>
+
+    <EditText
+        android:id="@+id/edittext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="जैसे: फ्रेज़र टाउन पुलिस स्टेशन"
+        android:padding="10dp" />
+</LinearLayout>
