@@ -48,7 +48,7 @@ This information will also be gathered, formatted and sent to various NGOs, and 
 
 Rahat's GSM server consists of a Raspberry Pi 3 coupled with a GSM 900A Module to scan for new messages and extract relevant information from them.
 
-![Hardware](RahatTwitterAndFaceAPI/images/hardware.jpg)
+![Hardware](RahatTwitterAndFaceAPI/images/hardware.JPG)
 
 ## Technology Stack
 
