@@ -14,6 +14,12 @@ In such situations, internet connectivity usually takes a hit, leaving people wi
 
 To combat these issues, we propose _Rahat_, a multi-lingual, end-to-end multi-functional disaster management application that can be deployed on a smartphone. Without an internet connection, we alert users to evacuate in the event of an impending disaster and extract the location of the disaster victims while the onboard chatbot provides much-required information, thus potentially saving lives. 
 
+Rahat is an elegant solution that can be used by both victim and rescuer with its goal being to bridge the existing gap between the two. 
+Rahat contacts the victim first, getting information like how their location, number of victims, etc.
+We also provide a Dashboard to rescue services enabling them to allocate resources better. Our platform can also be provided as an API.
+Our app has a ChatBot that will intelligently help the victim by capturing his location and help him with any illness and general advice.
+Rahat’s Pehchan also helps in identifying missing victims.
+
 ## Approach
 **Binding Step:** Augmenting to the data collected from the previous steps, _Rahat_ will also allow the general public to send alerts and offer help and general information about the situation in their region.
 With this information, we grade disaster-affected region, based on two factors:
