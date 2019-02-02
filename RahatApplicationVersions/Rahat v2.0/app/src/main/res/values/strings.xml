@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Rahat</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="server_number">+919036112331</string>
+    <string-array name="sports_array">
+        <item>Please remain calm, Rahat is on the way!</item>
+        <item>Shelter Locations have been added to your Map.</item>
+        <item>WARNING: Stay away from South Bangalore, as more tremors are expected.</item>
+        <item>WARNING: Electricity Poles have been dislodged by the earthquake, be weary of live wires.</item>
+    </string-array>
+</resources>

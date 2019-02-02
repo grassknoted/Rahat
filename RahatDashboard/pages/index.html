@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Rahat</title>
+
+    {{mymap.js}}
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="{{url_for('static', filename='vendor/metisMenu/metisMenu.min.css')}}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{{url_for('static', filename='dist/css/sb-admin-2.css')}}" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="{{url_for('static', filename='vendor/morrisjs/morris.css')}}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{{url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map-element {
+        height: 500px;
+        width:100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Rahat Dashboard</a>
+            </div>
+            <!-- /.navbar-header -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="{{url_for('mapview')}}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="{{url_for('get_map')}}"><i class="fa fa-table fa-fw"></i>Naksha - Rahat Map Service</a>
+                        </li>                       
+                        <li>
+                            <a href="{{url_for('get_face')}}"><i class="fa fa-fw glyphicon-user"></i>Pehchan - Rahat Identification</a>
+                        </li>                        
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Dashboard</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Naksha - Rahat Map Service
+                            <div id="map-element">
+                                <!-- Map comes here -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.panel -->
+                    
+                    <!-- /.panel -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <ul id="timeline" class="timeline">           
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-8 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                                List of Victims Phone Numbers
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div id="victims" class="list-group">
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            List of Helpers' Phone Numbers
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div id="helpers" class="list-group">
+    
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    
+                </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{{url_for('static', filename='vendor/metisMenu/metisMenu.min.js')}}"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="{{url_for('static', filename='vendor/raphael/raphael.min.js')}}"></script>
+    <script src="{{url_for('static', filename='vendor/morrisjs/morris.min.js')}}"></script>
+    <script src="{{url_for('static', filename='data/morris-data.js')}}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{{url_for('static', filename='dist/js/sb-admin-2.js')}}"></script>
+
+
+    <script>
+
+        var tweets = {
+            xhr: new XMLHttpRequest(),
+
+            getTweets: function(){
+                this.xhr.onreadystatechange = this.displayTweets;
+                this.xhr.open("GET", "/getTweet?tweet=" + 1, true)
+                this.xhr.send();
+            },
+
+            displayTweets: function(){
+                if(tweets.xhr.readyState == 4 && tweets.xhr.status== 200){
+                    var res = this.responseText;
+                    var resJSON = JSON.parse(res);
+                    
+                    for(i=0; i<resJSON.length; i++){
+                        if(resJSON[i][2]=="V" || resJSON[i][2]<0){
+                            badge = document.createElement("div");
+                            badge.setAttribute("class", "timeline-badge danger");
+                            icon = document.createElement("i");
+                            icon.setAttribute("class", "fa fa-bomb")
+                            badge.appendChild(icon);
+
+                            heading = document.createElement("div");
+                            heading.setAttribute("class", "timeline-heading");
+                            head = document.createElement("h4");
+                            head.setAttribute("class", "timeline-title");
+                            head.innerHTML = "Help Needed";
+                            heading.appendChild(head);
+
+                            body = document.createElement("div");
+                            body.setAttribute("class", "timeline-body");
+                            body.innerHTML = resJSON[i][1];
+
+                            panel = document.createElement("div");
+                            panel.setAttribute("class", "timeline-panel");
+                            panel.appendChild(heading);
+                            panel.appendChild(body);
+
+                            update = document.createElement("li");
+                            update.appendChild(badge);
+                            update.appendChild(panel);
+
+                            timeline = document.getElementById("timeline");
+                            timeline.appendChild(update);
+                        }
+                        else{
+                            badge = document.createElement("div");
+                            badge.setAttribute("class", "timeline-badge success");
+                            icon = document.createElement("i");
+                            icon.setAttribute("class", "fa fa-check")
+                            badge.appendChild(icon);
+
+                            heading = document.createElement("div");
+                            heading.setAttribute("class", "timeline-heading");
+                            head = document.createElement("h4");
+                            head.setAttribute("class", "timeline-title");
+                            head.innerHTML = "Helpers Available";
+                            heading.appendChild(head);
+
+                            body = document.createElement("div");
+                            body.setAttribute("class", "timeline-body");
+                            body.innerHTML = resJSON[i][1];
+
+                            panel = document.createElement("div");
+                            panel.setAttribute("class", "timeline-panel");
+                            panel.appendChild(heading);
+                            panel.appendChild(body);
+
+                            update = document.createElement("li");
+                            update.setAttribute("class", "timeline-inverted");
+                            update.appendChild(badge);
+                            update.appendChild(panel);
+
+                            timeline = document.getElementById("timeline");
+                            timeline.appendChild(update);
+                        }
+                    }
+                }
+            }
+        }
+
+        tweets.getTweets();
+
+        var victims = {
+            xhr: new XMLHttpRequest(),
+
+            getVictims: function(){
+                this.xhr.onreadystatechange = this.displayVictims;
+                this.xhr.open("GET", "/getVictims?victim=" + 1, true)
+                this.xhr.send();
+            },
+
+            displayVictims: function(){
+                if(victims.xhr.readyState == 4 && victims.xhr.status== 200){
+                    var res = this.responseText;
+                    var resJSON = JSON.parse(res);
+                    
+                    for(i=0; i<resJSON.length; i++){
+                        message = document.createElement("a");
+                        message.setAttribute("href", "#");
+                        message.setAttribute("class", "list-group-item");
+                        message.innerHTML = resJSON[i][1]
+
+                        btn = document.createElement("button");
+                        btn.setAttribute("class", "btn btn-default btn-xs")
+                        btn.setAttribute("onclick", "victims.accept()");
+                        btn.innerHTML = "Update";
+
+                        update = document.createElement("span");
+                        update.setAttribute("class", "pull-right text-muted small");
+                        update.appendChild(btn);
+
+                        message.appendChild(update);
+
+                        victim = document.getElementById("victims");
+                        victim.appendChild(message);
+                    }
+
+                }
+            },
+
+            accept: function(){
+                abs = window.prompt("Update Victim", "Hang tight, we're coming for you!");
+                console.log(abs);
+            }
+        }
+
+        victims.getVictims();
+
+
+        var helpers = {
+            xhr: new XMLHttpRequest(),
+
+            getVictims: function(){
+                this.xhr.onreadystatechange = this.displayHelpers;
+                this.xhr.open("GET", "/getHelpers", true)
+                this.xhr.send();
+            },
+
+            displayHelpers: function(){
+                if(helpers.xhr.readyState == 4 && helpers.xhr.status== 200){
+                    var res = this.responseText;
+                    var resJSON = JSON.parse(res);
+                    
+                    for(i=0; i<resJSON.length; i++){
+                        message = document.createElement("a");
+                        message.setAttribute("href", "#");
+                        message.setAttribute("class", "list-group-item");
+                        message.innerHTML = resJSON[i][1]
+
+                        btn = document.createElement("button");
+                        btn.setAttribute("class", "btn btn-default btn-xs")
+                        btn.setAttribute("onclick", "helpers.accept()");
+                        btn.innerHTML = "Update";
+
+                        update = document.createElement("span");
+                        update.setAttribute("class", "pull-right text-muted small");
+                        update.appendChild(btn);
+
+                        message.appendChild(update);
+
+                        helper = document.getElementById("helpers");
+                        helper.appendChild(message);
+                    }
+
+                }
+            },
+
+            accept: function(){
+                window.prompt("Update Helper", "Thank you for your service!");
+            }
+        }
+
+        helpers.getVictims();
+
+
+    </script>
+
+</body>
+
+</html>
