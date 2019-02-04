@@ -4,6 +4,7 @@ After features have been tested in ```Rahat-TestBench```, they make their way he
 
 A multi-lingual, end-to-end disaster management system in the form of a multi-functional services, that works with low-bandwidth GSM networks.
 
+Azure URL: https://portal.azure.com/#@grassknotedgmail.onmicrosoft.com/resource/subscriptions/6f3567d9-00fb-4437-b860-ad87b126bd8f/resourceGroups/RahatFinal/providers/Microsoft.Compute/virtualMachines/RahatServerA/overview
 
 
 ## Abstract
